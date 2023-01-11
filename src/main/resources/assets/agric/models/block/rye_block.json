@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "agric:block/rye_block_top",
+    "side": "agric:block/rye_block_side"
+  }
+}

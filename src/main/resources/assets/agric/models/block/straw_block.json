@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "agric:block/straw_block_top",
+    "side": "agric:block/straw_block_side"
+  }
+}

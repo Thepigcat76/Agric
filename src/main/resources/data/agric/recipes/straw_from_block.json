@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "agric:straw_block"
+    }
+  ],
+  "result": {
+    "item": "agric:straw",
+    "count": 9
+  }
+}

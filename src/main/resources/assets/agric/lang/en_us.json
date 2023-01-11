@@ -1,0 +1,10 @@
+{
+  "item.agric.straw": "Straw",
+  "item.agric.rye_seeds": "Rye Seeds",
+  "item.agric.cotton_seeds": "Cotton Seeds",
+
+  "block.agric.straw_block": "Straw Bale",
+  "block.agric.rye_block": "Rye Bale",
+
+  "itemGroup.agric": "Agric"
+}
