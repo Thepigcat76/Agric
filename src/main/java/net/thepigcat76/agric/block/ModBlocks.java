@@ -31,15 +31,15 @@ public class ModBlocks {
             .strength(2f)), ModCreativeTab.AGRIC);
 
     public static final RegistryObject<Block> RYE_CROP= BLOCKS.register("rye_crop", () -> new RyeCrop(BlockBehaviour.Properties.copy(Blocks.WHEAT)
-            .strength(2f)));
+            .strength(0f)));
 
     public static final RegistryObject<Block> COTTON_CROP= BLOCKS.register("cotton_crop", () -> new CottonCrop(BlockBehaviour.Properties.copy(Blocks.WHEAT)
-            .strength(2f)));
+            .strength(0f)));
 
-    public static final RegistryObject<Block> REED_CROP = BLOCKS.register("reed_crop", () -> new ReedCrop(BlockBehaviour.Properties.of(Material.PLANT)
-            .strength(2f)));
+    public static final RegistryObject<Block> REED_CROP = BLOCKS.register("reed_crop", () -> new ReedCrop(BlockBehaviour.Properties.copy(Blocks.WHEAT)
+            .strength(0f)));
 
-    public static final RegistryObject<Block> STRAWBERRY_BUSH= BLOCKS.register("strawberry_bush", () -> new StrawberryBush(BlockBehaviour.Properties.of(Material.PLANT).strength(2f)));
+    public static final RegistryObject<Block> STRAWBERRY_BUSH= BLOCKS.register("strawberry_bush", () -> new StrawberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).strength(0f)));
 
     public static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
