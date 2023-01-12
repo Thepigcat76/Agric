@@ -13,7 +13,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
 import net.thepigcat76.agric.block.crop.CottonCrop;
-import net.thepigcat76.agric.block.crop.bush.StrawberryBush;
+import net.thepigcat76.agric.block.crop.ReedCrop;
+import net.thepigcat76.agric.block.bush.StrawberryBush;
 import net.thepigcat76.agric.item.ModCreativeTab;
 import net.thepigcat76.agric.item.ModItems;
 import net.thepigcat76.agric.block.crop.RyeCrop;
@@ -35,9 +36,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> COTTON_CROP= BLOCKS.register("cotton_crop", () -> new CottonCrop(BlockBehaviour.Properties.copy(Blocks.WHEAT)
             .strength(2f)));
 
-    public static final RegistryObject<Block> STRAWBERRY_BUSH= BLOCKS.register("strawberry_bush", () -> new StrawberryBush(BlockBehaviour.Properties.copy(Blocks.WHEAT).strength(2f)));
+    public static final RegistryObject<Block> REED_CROP = BLOCKS.register("reed_crop", () -> new ReedCrop(BlockBehaviour.Properties.of(Material.PLANT)
+            .strength(2f)));
 
-    private static <T extends Block>RegistryObject<T> registerBlock(String  name, Supplier<T> block, CreativeModeTab tab) {
+    public static final RegistryObject<Block> STRAWBERRY_BUSH= BLOCKS.register("strawberry_bush", () -> new StrawberryBush(BlockBehaviour.Properties.of(Material.PLANT).strength(2f)));
+
+    public static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
         return toReturn;
@@ -49,6 +53,7 @@ public class ModBlocks {
         return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
 
     }
+
 
 
     public static void register (IEventBus eventBus) {

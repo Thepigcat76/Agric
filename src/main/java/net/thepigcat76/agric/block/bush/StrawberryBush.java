@@ -1,4 +1,4 @@
-package net.thepigcat76.agric.block.crop.bush;
+package net.thepigcat76.agric.block.bush;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
