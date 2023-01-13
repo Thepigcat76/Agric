@@ -25,7 +25,7 @@ import net.thepigcat76.agric.item.ModItems;
 import javax.annotation.Nullable;
 
 public class ReedCrop extends CropBlock {
-    public static final int DOUBLE_AGE = 4;
+    public static final int DOUBLE_AGE = 6;
     private static final VoxelShape FULL_BOTTOM = Block.box(1, 0, 1, 15, 16, 15);
     private static final VoxelShape[] SHAPES_BOTTOM = new VoxelShape[]{
             Block.box(4, 0, 4, 12, 6, 12),

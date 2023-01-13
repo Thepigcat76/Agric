@@ -2,8 +2,18 @@
   "item.agric.straw": "Straw",
   "item.agric.rye_seeds": "Rye Seeds",
   "item.agric.cotton_seeds": "Cotton Seeds",
+  "item.agric.reed_seeds": "Reed Seeds",
+  "item.agric.blueberry": "Blueberry",
+  "item.agric.strawberry": "Strawberry",
+  "item.agric.cotton": "Cotton",
+  "item.agric.rye": "Rye",
 
   "block.agric.straw_block": "Straw Bale",
+  "block.agric.cotton_crop": "Cotton Crop",
+  "block.agric.rye_crop": "Rye Crop",
+  "block.agric.reed_crop": "Reed Crop",
+  "block.agric.strawberry_bush": "Strawberry Bush",
+  "block.agric.blueberry_bush": "Blueberry Bush",
   "block.agric.rye_block": "Rye Bale",
 
   "itemGroup.agric": "Agric"

@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -26,31 +25,31 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.thepigcat76.agric.item.ModItems;
 
-public class StrawberryBush extends BushBlock implements BonemealableBlock {
-    public static final int MAX_AGE = 4;
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
+public class BlueberryBush extends BushBlock implements BonemealableBlock {
+    public static final int MAX_AGE = 3;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
     private static final VoxelShape MID_GROWTH_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
-    public StrawberryBush(BlockBehaviour.Properties p_57249_) {
+    public BlueberryBush(Properties p_57249_) {
         super(p_57249_);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
     }
     public ItemStack getCloneItemStack(BlockGetter p_57256_, BlockPos p_57257_, BlockState p_57258_) {
-        return new ItemStack(ModItems.STRAWBERRY.get());
+        return new ItemStack(ModItems.BLUEBERRY.get());
     }
 
     public VoxelShape getShape(BlockState p_57291_, BlockGetter p_57292_, BlockPos p_57293_, CollisionContext p_57294_) {
         if (p_57291_.getValue(AGE) == 0) {
             return SAPLING_SHAPE;
         } else {
-            return p_57291_.getValue(AGE) < 4 ? MID_GROWTH_SHAPE : super.getShape(p_57291_, p_57292_, p_57293_, p_57294_);
+            return p_57291_.getValue(AGE) < 3 ? MID_GROWTH_SHAPE : super.getShape(p_57291_, p_57292_, p_57293_, p_57294_);
         }
     }
 
     public boolean isRandomlyTicking(BlockState p_57284_) {
-        return p_57284_.getValue(AGE) < 4;
+        return p_57284_.getValue(AGE) < 3;
     }
 
     public void randomTick(BlockState p_222563_, ServerLevel p_222564_, BlockPos p_222565_, RandomSource p_222566_) {
@@ -66,12 +65,12 @@ public class StrawberryBush extends BushBlock implements BonemealableBlock {
 
     public InteractionResult use(BlockState p_57275_, Level p_57276_, BlockPos p_57277_, Player p_57278_, InteractionHand p_57279_, BlockHitResult p_57280_) {
         int i = p_57275_.getValue(AGE);
-        boolean flag = i == 4;
+        boolean flag = i == 3;
         if (!flag && p_57278_.getItemInHand(p_57279_).is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
-        } else if (i > 3) {
+        } else if (i > 2) {
             int j = 1 + p_57276_.random.nextInt(2);
-            popResource(p_57276_, p_57277_, new ItemStack(ModItems.STRAWBERRY.get(), j + (flag ? 1 : 0)));
+            popResource(p_57276_, p_57277_, new ItemStack(ModItems.BLUEBERRY.get(), j + (flag ? 1 : 0)));
             p_57276_.playSound((Player)null, p_57277_, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + p_57276_.random.nextFloat() * 0.4F);
             BlockState blockstate = p_57275_.setValue(AGE, Integer.valueOf(1));
             p_57276_.setBlock(p_57277_, blockstate, 2);
@@ -87,7 +86,7 @@ public class StrawberryBush extends BushBlock implements BonemealableBlock {
     }
 
     public boolean isValidBonemealTarget(BlockGetter p_57260_, BlockPos p_57261_, BlockState p_57262_, boolean p_57263_) {
-        return p_57262_.getValue(AGE) < 4;
+        return p_57262_.getValue(AGE) < 3;
     }
 
     public boolean isBonemealSuccess(Level p_222558_, RandomSource p_222559_, BlockPos p_222560_, BlockState p_222561_) {
