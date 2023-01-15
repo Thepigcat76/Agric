@@ -46,7 +46,7 @@ public class ModItems {
                     .tab(ModCreativeTab.AGRIC).food(new FoodProperties.Builder().nutrition(1) .effect(
                             () -> new MobEffectInstance(MobEffects.REGENERATION, 60, 0), 1f).build())));
 
-    public static final RegistryObject<Item> RASPBERRY = MOD_ITEMS.register("strawberry",
+    public static final RegistryObject<Item> RASPBERRY = MOD_ITEMS.register("raspberry",
             () -> new ItemNameBlockItem(ModBlocks.RASPBERRY_BUSH.get(), new Item.Properties()
                     .tab(ModCreativeTab.AGRIC).food(new FoodProperties.Builder().nutrition(1) .effect(
                             () -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 0), 1f).build())));

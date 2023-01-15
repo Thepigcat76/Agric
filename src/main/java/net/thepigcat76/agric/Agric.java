@@ -1,7 +1,9 @@
 package net.thepigcat76.agric;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.thepigcat76.agric.block.ModBlocks;
+import net.thepigcat76.agric.block.entity.ModBlockEntities;
 import net.thepigcat76.agric.item.ModItems;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -10,6 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.thepigcat76.agric.screen.ModMenuTypes;
+import net.thepigcat76.agric.screen.DryingRackScreen;
 import org.slf4j.Logger;
 
 @Mod(Agric.MODID)
@@ -23,6 +27,10 @@ public class Agric {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -35,6 +43,7 @@ public class Agric {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            MenuScreens.register(ModMenuTypes.DRYING_RACK_MENU.get(), DryingRackScreen::new);
         }
     }
 }

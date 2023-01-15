@@ -16,6 +16,7 @@ import net.thepigcat76.agric.block.bush.RaspberryBush;
 import net.thepigcat76.agric.block.crop.CottonCrop;
 import net.thepigcat76.agric.block.crop.ReedCrop;
 import net.thepigcat76.agric.block.bush.StrawberryBush;
+import net.thepigcat76.agric.block.functional.DryingRack;
 import net.thepigcat76.agric.item.ModCreativeTab;
 import net.thepigcat76.agric.item.ModItems;
 import net.thepigcat76.agric.block.crop.RyeCrop;
@@ -49,8 +50,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> BLUEBERRY_BUSH= MOD_BLOCKS.register("blueberry_bush", () -> new BlueberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)
             .strength(0f)));
 
-    public static final RegistryObject<Block> RASPBERRY_BUSH= MOD_BLOCKS.register("blueberry_bush", () -> new RaspberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)
+    public static final RegistryObject<Block> RASPBERRY_BUSH= MOD_BLOCKS.register("raspberry_bush", () -> new RaspberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)
             .strength(0f)));
+
+    public static final RegistryObject<Block> DRYING_RACK_ENTITY = registerBlock("drying_rack_entity",
+            () -> new DryingRack(BlockBehaviour.Properties.of(Material.METAL)
+                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), ModCreativeTab.AGRIC);
 
     public static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = MOD_BLOCKS.register(name, block);
