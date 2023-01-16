@@ -27,17 +27,12 @@ public class DryingRackScreen extends AbstractContainerScreen<DryingRackMenu> {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
+        int i = leftPos;
+        int j = topPos;
+        this.blit(pPoseStack, i, j, 0, 0, imageWidth, imageHeight);
 
-        this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
-
-        renderProgressArrow(pPoseStack, x, y);
-    }
-
-    private void renderProgressArrow(PoseStack pPoseStack, int x, int y) {
-        if(menu.isCrafting()) {
-            blit(pPoseStack, x + 205, y + 33, 176, 0, 8, menu.getScaledProgress());
+        if (menu.isCrafting()) {
+            this.blit(pPoseStack, i + 56, j + 36 + 12 - menu.getScaledProgress(), 176, 12 - menu.getScaledProgress(), 14, menu.getScaledProgress() + 1);
         }
     }
 
