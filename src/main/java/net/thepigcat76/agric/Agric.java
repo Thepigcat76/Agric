@@ -2,6 +2,8 @@ package net.thepigcat76.agric;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.world.inventory.MenuType;
 import net.thepigcat76.agric.block.ModBlocks;
 import net.thepigcat76.agric.block.entity.ModBlockEntities;
 import net.thepigcat76.agric.item.ModItems;

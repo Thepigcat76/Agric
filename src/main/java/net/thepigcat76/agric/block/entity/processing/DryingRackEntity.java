@@ -1,4 +1,4 @@
-package net.thepigcat76.agric.block.entity;
+package net.thepigcat76.agric.block.entity.processing;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.thepigcat76.agric.block.entity.ModBlockEntities;
 import net.thepigcat76.agric.item.ModItems;
 import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 import org.jetbrains.annotations.NotNull;

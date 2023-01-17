@@ -14,6 +14,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import net.thepigcat76.agric.block.entity.processing.DryingRackEntity;
 import net.thepigcat76.agric.block.entity.ModBlockEntities;
+import net.thepigcat76.agric.block.entity.storage.CrateEntity;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -27,19 +28,11 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class DryingRack extends BaseEntityBlock {
+public class Crate extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    public DryingRack(Properties properties) {
+    public Crate(Properties properties) {
         super(properties);
-    }
-
-    private static final VoxelShape SHAPE =
-            Block.box(0, 0, 0, 16, 10, 16);
-
-    @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return SHAPE;
     }
 
     @Override
@@ -73,8 +66,8 @@ public class DryingRack extends BaseEntityBlock {
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof DryingRackEntity) {
-                ((DryingRackEntity) blockEntity).drops();
+            if (blockEntity instanceof CrateEntity) {
+                ((CrateEntity) blockEntity).drops();
             }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
@@ -85,8 +78,8 @@ public class DryingRack extends BaseEntityBlock {
                                  Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof DryingRackEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (DryingRackEntity)entity, pPos);
+            if(entity instanceof CrateEntity) {
+                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (CrateEntity)entity, pPos);
             } else {
                 throw new IllegalStateException("The Container provider is missing!");
             }
@@ -98,14 +91,15 @@ public class DryingRack extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new DryingRackEntity(pos, state);
+        return new CrateEntity(pos, state);
     }
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-                                                                  BlockEntityType<T> type) {
-        return createTickerHelper(type, ModBlockEntities.DRYING_RACK_ENTITY.get(),
-                DryingRackEntity::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+
+        return createTickerHelper(type, ModBlockEntities.CRATE_ENTITY.get(),
+                CrateEntity::tick);
+
     }
 }

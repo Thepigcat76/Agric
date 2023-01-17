@@ -16,6 +16,8 @@ import net.thepigcat76.agric.block.bush.RaspberryBush;
 import net.thepigcat76.agric.block.crop.CottonCrop;
 import net.thepigcat76.agric.block.crop.ReedCrop;
 import net.thepigcat76.agric.block.bush.StrawberryBush;
+import net.thepigcat76.agric.block.entity.storage.CrateEntity;
+import net.thepigcat76.agric.block.functional.Crate;
 import net.thepigcat76.agric.block.functional.DryingRack;
 import net.thepigcat76.agric.item.ModCreativeTab;
 import net.thepigcat76.agric.item.ModItems;
@@ -53,9 +55,13 @@ public class ModBlocks {
     public static final RegistryObject<Block> RASPBERRY_BUSH= MOD_BLOCKS.register("raspberry_bush", () -> new RaspberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)
             .strength(0f)));
 
-    public static final RegistryObject<Block> DRYING_RACK_ENTITY = registerBlock("drying_rack_entity",
-            () -> new DryingRack(BlockBehaviour.Properties.of(Material.METAL)
-                    .strength(6f).requiresCorrectToolForDrops().noOcclusion()), ModCreativeTab.AGRIC);
+    public static final RegistryObject<Block> DRYING_RACK_ENTITY = registerBlock("drying_rack",
+            () -> new DryingRack(BlockBehaviour.Properties.of(Material.WOOD)
+                    .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
+
+    public static final RegistryObject<Block> CRATE_ENTIY = registerBlock("crate",
+            () -> new Crate(BlockBehaviour.Properties.of(Material.WOOD)
+                    .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
 
     public static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = MOD_BLOCKS.register(name, block);

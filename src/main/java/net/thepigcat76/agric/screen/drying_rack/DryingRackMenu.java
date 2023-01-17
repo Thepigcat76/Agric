@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.thepigcat76.agric.block.ModBlocks;
-import net.thepigcat76.agric.block.entity.DryingRackEntity;
+import net.thepigcat76.agric.block.entity.processing.DryingRackEntity;
 import net.thepigcat76.agric.screen.ModMenuTypes;
 
 public class DryingRackMenu extends AbstractContainerMenu {

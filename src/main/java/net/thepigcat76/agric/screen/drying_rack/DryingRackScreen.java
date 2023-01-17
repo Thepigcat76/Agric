@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.thepigcat76.agric.Agric;
-import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 
 public class DryingRackScreen extends AbstractContainerScreen<DryingRackMenu> {
     private static final ResourceLocation TEXTURE =
@@ -34,7 +33,7 @@ public class DryingRackScreen extends AbstractContainerScreen<DryingRackMenu> {
 
         if (menu.isCrafting()) {
             int l = this.menu.getScaledProgress()   ;
-            this.blit(pPoseStack, i + 79, j + 34, 176, 14, l + 1, 16);
+            this.blit(pPoseStack, i + 78, j + 35, 176, 14, l + 1, 16);
         }
     }
 
