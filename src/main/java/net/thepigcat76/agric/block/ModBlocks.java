@@ -16,7 +16,6 @@ import net.thepigcat76.agric.block.bush.RaspberryBush;
 import net.thepigcat76.agric.block.crop.CottonCrop;
 import net.thepigcat76.agric.block.crop.ReedCrop;
 import net.thepigcat76.agric.block.bush.StrawberryBush;
-import net.thepigcat76.agric.block.entity.storage.CrateEntity;
 import net.thepigcat76.agric.block.functional.Crate;
 import net.thepigcat76.agric.block.functional.DryingRack;
 import net.thepigcat76.agric.item.ModCreativeTab;
