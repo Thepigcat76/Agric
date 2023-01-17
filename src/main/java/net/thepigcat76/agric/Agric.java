@@ -13,7 +13,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.thepigcat76.agric.screen.ModMenuTypes;
-import net.thepigcat76.agric.screen.DryingRackScreen;
+import net.thepigcat76.agric.screen.drying_rack.DryingRackScreen;
 import org.slf4j.Logger;
 
 @Mod(Agric.MODID)

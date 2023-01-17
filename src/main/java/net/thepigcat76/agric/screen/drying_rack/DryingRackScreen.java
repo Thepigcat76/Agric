@@ -1,4 +1,4 @@
-package net.thepigcat76.agric.screen;
+package net.thepigcat76.agric.screen.drying_rack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.thepigcat76.agric.Agric;
+import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 
 public class DryingRackScreen extends AbstractContainerScreen<DryingRackMenu> {
     private static final ResourceLocation TEXTURE =
@@ -32,7 +33,8 @@ public class DryingRackScreen extends AbstractContainerScreen<DryingRackMenu> {
         this.blit(pPoseStack, i, j, 0, 0, imageWidth, imageHeight);
 
         if (menu.isCrafting()) {
-            this.blit(pPoseStack, i + 56, j + 36 + 12 - menu.getScaledProgress(), 176, 12 - menu.getScaledProgress(), 14, menu.getScaledProgress() + 1);
+            int l = this.menu.getScaledProgress()   ;
+            this.blit(pPoseStack, i + 79, j + 34, 176, 14, l + 1, 16);
         }
     }
 

@@ -21,7 +21,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.thepigcat76.agric.item.ModItems;
-import net.thepigcat76.agric.screen.DryingRackMenu;
+import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
