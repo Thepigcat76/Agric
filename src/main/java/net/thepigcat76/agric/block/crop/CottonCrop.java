@@ -9,12 +9,16 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.thepigcat76.agric.item.ModItems;
 
 public class CottonCrop extends CropBlock {
+
+    //Set min and max crop age
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 4);
 
+    //Properties for crop block
     public CottonCrop(Properties properties) {
         super(properties);
     }
 
+    //Assign seed item
     @Override
     protected ItemLike getBaseSeedId() {
         return ModItems.COTTON_SEEDS.get();
@@ -25,13 +29,14 @@ public class CottonCrop extends CropBlock {
         return AGE;
     }
 
+    //Get max age
     @Override
     public int getMaxAge() {
         return 4;
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder    ) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }
 }
