@@ -2,25 +2,54 @@ package net.thepigcat76.agric.block.entity.storage;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.Containers;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BarrelBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.thepigcat76.agric.block.entity.ModBlockEntities;
+import net.thepigcat76.agric.screen.crate.CrateMenu;
 
 public class CrateEntity extends RandomizableContainerBlockEntity {
-    private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+    private NonNullList<ItemStack> items = NonNullList.withSize(36, ItemStack.EMPTY);
+    private ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        protected void onOpen(Level p_155062_, BlockPos p_155063_, BlockState p_155064_) {
+            net.thepigcat76.agric.block.entity.storage.CrateEntity.this.playSound(p_155064_, SoundEvents.BARREL_OPEN);
+            net.thepigcat76.agric.block.entity.storage.CrateEntity.this.updateBlockState(p_155064_, true);
+        }
+
+        protected void onClose(Level p_155072_, BlockPos p_155073_, BlockState p_155074_) {
+            net.thepigcat76.agric.block.entity.storage.CrateEntity.this.playSound(p_155074_, SoundEvents.BARREL_CLOSE);
+            net.thepigcat76.agric.block.entity.storage.CrateEntity.this.updateBlockState(p_155074_, false);
+        }
+
+        protected void openerCountChanged(Level p_155066_, BlockPos p_155067_, BlockState p_155068_, int p_155069_, int p_155070_) {
+        }
+
+        protected boolean isOwnContainer(Player p_155060_) {
+            if (p_155060_.containerMenu instanceof CrateMenu) {
+                Container container = ((CrateMenu)p_155060_.containerMenu).getContainer();
+                return container == net.thepigcat76.agric.block.entity.storage.CrateEntity.this;
+            } else {
+                return false;
+            }
+        }
+    };
 
     public CrateEntity(BlockPos p_155052_, BlockState p_155053_) {
-        super(ModBlockEntities.CRATE_ENTITY.get(), p_155052_, p_155053_);
+        super(BlockEntityType.BARREL, p_155052_, p_155053_);
     }
 
     protected void saveAdditional(CompoundTag p_187459_) {
@@ -41,7 +70,7 @@ public class CrateEntity extends RandomizableContainerBlockEntity {
     }
 
     public int getContainerSize() {
-        return 27;
+        return 36;
     }
 
     protected NonNullList<ItemStack> getItems() {
@@ -52,22 +81,42 @@ public class CrateEntity extends RandomizableContainerBlockEntity {
         this.items = p_58610_;
     }
 
-    protected Component getDefaultName() {
-        return Component.translatable("container.crate");
+    protected Component getDefaultName() {return Component.translatable("container.crate");}
+
+    protected AbstractContainerMenu createMenu(int i, Inventory inventory) {
+        return CrateMenu.four(i, inventory, this);
     }
 
-    protected AbstractContainerMenu createMenu(int p_58598_,Inventory p_58599_) {
-        return ChestMenu.fourRows(p_58598_, p_58599_);
-    }
-
-    public void drops() {
-        SimpleContainer inventory = new SimpleContainer();
-        Containers.dropContents(this.level, this.worldPosition, inventory);
-    }
-
-    public static void tick(Level level, BlockPos pos, BlockState state, CrateEntity pEntity) {
-        if (level.isClientSide()) {
-            return;
+    public void startOpen(Player p_58616_) {
+        if (!this.remove && !p_58616_.isSpectator()) {
+            this.openersCounter.incrementOpeners(p_58616_, this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
+
+    }
+
+    public void stopOpen(Player p_58614_) {
+        if (!this.remove && !p_58614_.isSpectator()) {
+            this.openersCounter.decrementOpeners(p_58614_, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+
+    }
+
+    public void recheckOpen() {
+        if (!this.remove) {
+            this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+
+    }
+
+    void updateBlockState(BlockState p_58607_, boolean p_58608_) {
+        this.level.setBlock(this.getBlockPos(), p_58607_.setValue(BarrelBlock.OPEN, Boolean.valueOf(p_58608_)), 3);
+    }
+
+    void playSound(BlockState p_58601_, SoundEvent p_58602_) {
+        Vec3i vec3i = p_58601_.getValue(BarrelBlock.FACING).getNormal();
+        double d0 = (double)this.worldPosition.getX() + 0.5D + (double)vec3i.getX() / 2.0D;
+        double d1 = (double)this.worldPosition.getY() + 0.5D + (double)vec3i.getY() / 2.0D;
+        double d2 = (double)this.worldPosition.getZ() + 0.5D + (double)vec3i.getZ() / 2.0D;
+        this.level.playSound((Player)null, d0, d1, d2, p_58602_, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
     }
 }

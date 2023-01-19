@@ -62,7 +62,6 @@ public class ReedCrop extends CropBlock {
         return SHAPES_TOP[state.getValue(AGE)];
     }
 
-    //two block tall crop
     @Override
     public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
         DoubleBlockHalf half = stateIn.getValue(HALF);
@@ -134,7 +133,6 @@ public class ReedCrop extends CropBlock {
         worldIn.setBlock(pos.above(), this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER), flags);
     }
 
-    // Ticking of the crop
     @Override
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
         if (!worldIn.isAreaLoaded(pos, 1))
@@ -161,7 +159,6 @@ public class ReedCrop extends CropBlock {
     }
 
 
-    //for bonemaling crops
     @Override
     public boolean isValidBonemealTarget(BlockGetter worldIn, BlockPos pos, BlockState state, boolean isClient) {
         return state.getValue(HALF) == DoubleBlockHalf.LOWER && (!this.isMaxAge(state) && (this.canGrowUp(worldIn, pos) || this.getAge(state) < DOUBLE_AGE - 1));
@@ -196,7 +193,6 @@ public class ReedCrop extends CropBlock {
     protected ItemLike getBaseSeedId() {
         return ModItems.REED_SEEDS.get();
     }
-
 
     @Override
     public boolean isMaxAge(BlockState pState) {

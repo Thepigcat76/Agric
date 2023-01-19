@@ -9,16 +9,12 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.thepigcat76.agric.item.ModItems;
 
 public class RyeCrop extends CropBlock {
-
-    //Set min and max crop age
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
 
-    //Properties for crop block
     public RyeCrop(Properties properties) {
         super(properties);
     }
 
-    //Assign seed item
     @Override
     protected ItemLike getBaseSeedId() {
         return ModItems.RYE_SEEDS.get();
@@ -29,7 +25,6 @@ public class RyeCrop extends CropBlock {
         return AGE;
     }
 
-    //Get max age
     @Override
     public int getMaxAge() {
         return 7;

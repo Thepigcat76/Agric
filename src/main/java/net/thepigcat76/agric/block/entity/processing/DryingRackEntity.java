@@ -60,7 +60,6 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
                 }
             }
 
-            //must match with the number in TestBlockMenu
             @Override
             public int getCount() {
                 return 2;
@@ -70,7 +69,7 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Drying Rack");
+        return Component.translatable("container.drying_rack");
     }
 
     @Nullable
@@ -84,7 +83,6 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return lazyItemHandler.cast();
         }
-
         return super.getCapability(cap, side);
     }
 
@@ -128,7 +126,6 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         if(level.isClientSide()) {
             return;
         }
-
         if(hasRecipe(pEntity)) {
             pEntity.progress++;
             setChanged(level, pos, state);
@@ -162,7 +159,6 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
         }
-
         boolean hasStrawberryInFirstSlot = entity.itemHandler.getStackInSlot(0).getItem() == ModItems.STRAWBERRY.get();
 
         return hasStrawberryInFirstSlot && canInsertAmountIntoOutputSlot(inventory) &&

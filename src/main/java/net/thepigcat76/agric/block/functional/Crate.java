@@ -1,101 +1,107 @@
 package net.thepigcat76.agric.block.functional;
 
+
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.thepigcat76.agric.block.entity.ModBlockEntities;
-import net.thepigcat76.agric.block.entity.storage.CrateEntity;
-import org.jetbrains.annotations.Nullable;
-
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BarrelBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.thepigcat76.agric.block.entity.storage.CrateEntity;
 
 public class Crate extends BaseEntityBlock {
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
-    public Crate(Properties properties) {
-        super(properties);
+    public Crate(BlockBehaviour.Properties p_49046_) {
+        super(p_49046_);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, Boolean.valueOf(false)));
     }
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    public InteractionResult use(BlockState p_49069_, Level p_49070_, BlockPos p_49071_, Player p_49072_, InteractionHand p_49073_, BlockHitResult p_49074_) {
+        if (p_49070_.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else {
+            BlockEntity blockentity = p_49070_.getBlockEntity(p_49071_);
+            if (blockentity instanceof CrateEntity) {
+                p_49072_.openMenu((CrateEntity)blockentity);
+            }
+            return InteractionResult.CONSUME;
+        }
     }
 
-    @Override
-    public BlockState rotate(BlockState pState, Rotation pRotation) {
-        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    public void onRemove(BlockState p_49076_, Level p_49077_, BlockPos p_49078_, BlockState p_49079_, boolean p_49080_) {
+        if (!p_49076_.is(p_49079_.getBlock())) {
+            BlockEntity blockentity = p_49077_.getBlockEntity(p_49078_);
+            if (blockentity instanceof Container) {
+                Containers.dropContents(p_49077_, p_49078_, (Container)blockentity);
+                p_49077_.updateNeighbourForOutputSignal(p_49078_, this);
+            }
+            super.onRemove(p_49076_, p_49077_, p_49078_, p_49079_, p_49080_);
+        }
     }
 
-    @Override
-    public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
+    @Nullable
+    public BlockEntity newBlockEntity(BlockPos p_152102_, BlockState p_152103_) {
+        return new CrateEntity(p_152102_, p_152103_);
     }
 
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
-    }
-
-    /* BLOCK ENTITY */
-
-    @Override
-    public RenderShape getRenderShape(BlockState p_49232_) {
+    public RenderShape getRenderShape(BlockState p_49090_) {
         return RenderShape.MODEL;
     }
 
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (pState.getBlock() != pNewState.getBlock()) {
-            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof CrateEntity) {
-                ((CrateEntity) blockEntity).drops();
-            }
-        }
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
-    @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
-                                 Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof CrateEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (CrateEntity)entity, pPos);
-            } else {
-                throw new IllegalStateException("The Container provider is missing!");
+    public void setPlacedBy(Level p_49052_, BlockPos p_49053_, BlockState p_49054_, @Nullable LivingEntity p_49055_, ItemStack p_49056_) {
+        if (p_49056_.hasCustomHoverName()) {
+            BlockEntity blockentity = p_49052_.getBlockEntity(p_49053_);
+            if (blockentity instanceof CrateEntity) {
+                ((CrateEntity)blockentity).setCustomName(p_49056_.getHoverName());
             }
         }
 
-        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CrateEntity(pos, state);
+    public boolean hasAnalogOutputSignal(BlockState p_49058_) {
+        return true;
     }
 
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+    public int getAnalogOutputSignal(BlockState p_49065_, Level p_49066_, BlockPos p_49067_) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(p_49066_.getBlockEntity(p_49067_));
+    }
 
-        return createTickerHelper(type, ModBlockEntities.CRATE_ENTITY.get(),
-                CrateEntity::tick);
+    public BlockState rotate(BlockState p_49085_, Rotation p_49086_) {
+        return p_49085_.setValue(FACING, p_49086_.rotate(p_49085_.getValue(FACING)));
+    }
 
+    public BlockState mirror(BlockState p_49082_, Mirror p_49083_) {
+        return p_49082_.rotate(p_49083_.getRotation(p_49082_.getValue(FACING)));
+    }
+
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> p_49088_) {
+        p_49088_.add(FACING, OPEN);
+    }
+
+    public BlockState getStateForPlacement(BlockPlaceContext p_49048_) {
+        return this.defaultBlockState().setValue(FACING, p_49048_.getNearestLookingDirection().getOpposite());
     }
 }

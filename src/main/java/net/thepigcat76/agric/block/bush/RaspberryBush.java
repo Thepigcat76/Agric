@@ -33,7 +33,6 @@ import net.thepigcat76.agric.item.ModItems;
 public class RaspberryBush extends BushBlock implements BonemealableBlock {
     public static final int MAX_AGE = 3;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
-
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
     private static final VoxelShape MID_GROWTH_SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
@@ -41,6 +40,7 @@ public class RaspberryBush extends BushBlock implements BonemealableBlock {
         super(p_57249_);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, Integer.valueOf(0)));
     }
+
     public ItemStack getCloneItemStack(BlockGetter p_57256_, BlockPos p_57257_, BlockState p_57258_) {
         return new ItemStack(ModItems.RASPBERRY.get());
     }
@@ -65,7 +65,6 @@ public class RaspberryBush extends BushBlock implements BonemealableBlock {
             p_222564_.gameEvent(GameEvent.BLOCK_CHANGE, p_222565_, GameEvent.Context.of(blockstate));
             net.minecraftforge.common.ForgeHooks.onCropsGrowPost(p_222564_, p_222565_, p_222563_);
         }
-
     }
 
     public void entityInside(BlockState p_57270_, Level p_57271_, BlockPos p_57272_, Entity p_57273_) {
@@ -78,7 +77,6 @@ public class RaspberryBush extends BushBlock implements BonemealableBlock {
                     p_57273_.hurt(DamageSource.SWEET_BERRY_BUSH, 1.0F);
                 }
             }
-
         }
     }
 
