@@ -1,0 +1,11 @@
+{
+  "type": "agric:drying",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "output": {
+    "item": "minecraft:stick"
+  }
+}

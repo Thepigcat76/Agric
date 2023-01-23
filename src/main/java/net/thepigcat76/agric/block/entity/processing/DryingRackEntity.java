@@ -21,10 +21,12 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.thepigcat76.agric.block.entity.ModBlockEntities;
-import net.thepigcat76.agric.item.ModItems;
+import net.thepigcat76.agric.recipe.DryingRackRecipe;
 import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class DryingRackEntity extends BlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
@@ -144,10 +146,17 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
     }
 
     private static void craftItem(DryingRackEntity pEntity) {
+        Level level = pEntity.level;
+
+        SimpleContainer inventory = new SimpleContainer(pEntity.itemHandler.getSlots());
+        for (int i = 0; i < pEntity.itemHandler.getSlots(); i++) {
+            inventory.setItem(i, pEntity.itemHandler.getStackInSlot(i));
+        }
+        Optional<DryingRackRecipe> recipe = level.getRecipeManager().getRecipeFor(DryingRackRecipe.Type.INSTANCE, inventory, level);
 
         if(hasRecipe(pEntity)) {
             pEntity.itemHandler.extractItem(0, 1, false);
-            pEntity.itemHandler.setStackInSlot(1, new ItemStack(ModItems.BLUEBERRY.get(),
+            pEntity.itemHandler.setStackInSlot(1, new ItemStack(recipe.get().getResultItem().getItem(),
                     pEntity.itemHandler.getStackInSlot(1).getCount() + 1));
 
             pEntity.resetProgress();
@@ -155,21 +164,25 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
     }
 
     private static boolean hasRecipe(DryingRackEntity entity) {
+        Level level = entity.level;
+
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
         }
-        boolean hasStrawberryInFirstSlot = entity.itemHandler.getStackInSlot(0).getItem() == ModItems.STRAWBERRY.get();
+        Optional<DryingRackRecipe> recipe = level.getRecipeManager().getRecipeFor(DryingRackRecipe.Type.INSTANCE, inventory, level);
 
-        return hasStrawberryInFirstSlot && canInsertAmountIntoOutputSlot(inventory) &&
-                canInsertItemIntoOutputSlot(inventory, new ItemStack(ModItems.BLUEBERRY.get(), 1));
+        return recipe.isPresent() && canInsertAmountIntoOutputSlot(inventory) &&
+                canInsertItemIntoOutputSlot(inventory, recipe.get().getResultItem());
     }
 
+
+
     private static boolean canInsertItemIntoOutputSlot(SimpleContainer inventory, ItemStack stack) {
-        return inventory.getItem(2).getItem() == stack.getItem() || inventory.getItem(2).isEmpty();
+        return inventory.getItem(1).getItem() == stack.getItem() || inventory.getItem(1).isEmpty();
     }
 
     private static boolean canInsertAmountIntoOutputSlot(SimpleContainer inventory) {
-        return inventory.getItem(2).getMaxStackSize() > inventory.getItem(2).getCount();
+        return inventory.getItem(1).getMaxStackSize() > inventory.getItem(1).getCount();
     }
 }

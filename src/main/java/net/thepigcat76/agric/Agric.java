@@ -12,6 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.thepigcat76.agric.recipe.ModRecipes;
 import net.thepigcat76.agric.screen.ModMenuTypes;
 import net.thepigcat76.agric.screen.drying_rack.DryingRackScreen;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class Agric {
 
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+
+        ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
