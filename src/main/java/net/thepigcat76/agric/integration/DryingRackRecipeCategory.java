@@ -16,9 +16,8 @@ import net.thepigcat76.agric.block.ModBlocks;
 import net.thepigcat76.agric.recipe.DryingRackRecipe;
 
 public class DryingRackRecipeCategory implements IRecipeCategory<DryingRackRecipe> {
-    public final static ResourceLocation UID = new ResourceLocation(Agric.MODID, "drying");
-    public final static ResourceLocation TEXTURE =
-            new ResourceLocation(Agric.MODID, "textures/gui/drying_rack_gui.png");
+    public final static ResourceLocation UID = new ResourceLocation(Agric.MODID, "gem_infusing");
+    public final static ResourceLocation TEXTURE = new ResourceLocation(Agric.MODID, "textures/gui/drying_rack_gui.png");
 
     private final IDrawable background;
     private final IDrawable icon;
@@ -30,7 +29,7 @@ public class DryingRackRecipeCategory implements IRecipeCategory<DryingRackRecip
 
     @Override
     public RecipeType<DryingRackRecipe> getRecipeType() {
-        return JEIAgricPlugin.DRYING_TYPE;
+        return JeiAgricModPlugin.DRYING_TYPE;
     }
 
     @Override
@@ -50,8 +49,8 @@ public class DryingRackRecipeCategory implements IRecipeCategory<DryingRackRecip
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, DryingRackRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 86, 15).addIngredients(recipe.getIngredients().get(0));
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 86, 60).addItemStack(recipe.getResultItem());
-    }
+    builder.addSlot(RecipeIngredientRole.INPUT,86,15).addIngredients(recipe.getIngredients().get(0));
+    builder.addSlot(RecipeIngredientRole.OUTPUT,86,60).addItemStack(recipe.getResultItem());
+}
 }

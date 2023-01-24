@@ -1,4 +1,5 @@
 package net.thepigcat76.agric.integration;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @JeiPlugin
-public class JEIAgricPlugin implements IModPlugin {
+public class JeiAgricModPlugin implements IModPlugin {
     public static RecipeType<DryingRackRecipe> DRYING_TYPE =
             new RecipeType<>(DryingRackRecipeCategory.UID, DryingRackRecipe.class);
 
@@ -22,7 +23,6 @@ public class JEIAgricPlugin implements IModPlugin {
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(Agric.MODID, "jei_plugin");
     }
-
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new
