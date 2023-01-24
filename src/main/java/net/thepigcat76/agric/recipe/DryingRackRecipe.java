@@ -33,7 +33,12 @@ public class DryingRackRecipe implements Recipe<SimpleContainer> {
             return recipeItems.get(0).test(pContainer.getItem(0));
         }
 
-        @Override
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return recipeItems;
+    }
+
+    @Override
         public ItemStack assemble (SimpleContainer pContainer){
             return output;
         }
