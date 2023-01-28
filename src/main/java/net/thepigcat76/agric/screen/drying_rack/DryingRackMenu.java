@@ -97,7 +97,7 @@ public class DryingRackMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                player, ModBlocks.DRYING_RACK_ENTITY.get());
+                player, ModBlocks.DRYING_RACK.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

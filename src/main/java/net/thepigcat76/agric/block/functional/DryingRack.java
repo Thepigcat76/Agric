@@ -35,7 +35,7 @@ public class DryingRack extends BaseEntityBlock {
     }
 
     private static final VoxelShape SHAPE =
-            Block.box(0, 0, 0, 16, 10, 16);
+            Block.box(13, 13, 0, 16, 16, 16);
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {

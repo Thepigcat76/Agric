@@ -54,11 +54,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> RASPBERRY_BUSH= MOD_BLOCKS.register("raspberry_bush", () -> new RaspberryBush(BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH)
             .strength(0f)));
 
-    public static final RegistryObject<Block> DRYING_RACK_ENTITY = registerBlock("drying_rack",
+    public static final RegistryObject<Block> DRYING_RACK = registerBlock("drying_rack",
             () -> new DryingRack(BlockBehaviour.Properties.of(Material.WOOD)
                     .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
 
-    public static final RegistryObject<Block> CRATE_ENTIY = registerBlock("crate",
+    public static final RegistryObject<Block> CRATE = registerBlock("crate",
             () -> new Crate(BlockBehaviour.Properties.of(Material.WOOD)
                     .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
 

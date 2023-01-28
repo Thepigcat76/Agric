@@ -24,14 +24,14 @@ public class DryingRackRecipe implements Recipe<SimpleContainer> {
         this.recipeItems = recipeItems;
     }
 
-        @Override
-        public boolean matches (SimpleContainer pContainer, Level pLevel){
-            if (pLevel.isClientSide()) {
-                return false;
-            }
-
-            return recipeItems.get(0).test(pContainer.getItem(0));
+    @Override
+    public boolean matches (SimpleContainer pContainer, Level pLevel){
+        if (pLevel.isClientSide()) {
+            return false;
         }
+
+        return recipeItems.get(0).test(pContainer.getItem(0));
+    }
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
@@ -39,81 +39,81 @@ public class DryingRackRecipe implements Recipe<SimpleContainer> {
     }
 
     @Override
-        public ItemStack assemble (SimpleContainer pContainer){
-            return output;
+    public ItemStack assemble (SimpleContainer pContainer){
+        return output;
+    }
+
+    @Override
+    public boolean canCraftInDimensions ( int pWidth, int pHeight){
+        return true;
+    }
+
+    @Override
+    public ItemStack getResultItem () {
+        return output.copy();
+    }
+
+    @Override
+    public ResourceLocation getId () {
+        return id;
+    }
+
+    @Override
+    public RecipeSerializer<?> getSerializer () {
+        return Serializer.INSTANCE;
+    }
+
+    @Override
+    public RecipeType<?> getType () {
+        return Type.INSTANCE;
+    }
+
+    public static class Type implements RecipeType<DryingRackRecipe> {
+        private Type() {
+        }
+
+        public static final Type INSTANCE = new Type();
+        public static final String ID = "drying";
+    }
+
+    public static class Serializer implements RecipeSerializer<DryingRackRecipe> {
+        public static final Serializer INSTANCE = new Serializer();
+        public static final ResourceLocation ID =
+                new ResourceLocation(Agric.MODID, "drying");
+
+        @Override
+        public DryingRackRecipe fromJson(ResourceLocation id, JsonObject pSerializedRecipe) {
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
+
+            JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
+            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            }
+            return new DryingRackRecipe(id, output, inputs);
         }
 
         @Override
-        public boolean canCraftInDimensions ( int pWidth, int pHeight){
-            return true;
-        }
+        public @Nullable DryingRackRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf pBuffer) {
+            NonNullList<Ingredient> inputs = NonNullList.withSize(pBuffer.readInt(), Ingredient.EMPTY);
 
-        @Override
-        public ItemStack getResultItem () {
-            return output.copy();
-        }
-
-        @Override
-        public ResourceLocation getId () {
-            return id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getSerializer () {
-            return Serializer.INSTANCE;
-        }
-
-        @Override
-        public RecipeType<?> getType () {
-            return Type.INSTANCE;
-        }
-
-        public static class Type implements RecipeType<DryingRackRecipe> {
-            private Type() {
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromNetwork(pBuffer));
             }
 
-            public static final Type INSTANCE = new Type();
-            public static final String ID = "drying";
+            ItemStack output = pBuffer.readItem();
+            return new DryingRackRecipe(id, output, inputs);
         }
 
-        public static class Serializer implements RecipeSerializer<DryingRackRecipe> {
-            public static final Serializer INSTANCE = new Serializer();
-            public static final ResourceLocation ID =
-                    new ResourceLocation(Agric.MODID, "drying");
+        @Override
+        public void toNetwork(FriendlyByteBuf pBuffer, DryingRackRecipe pRecipe) {
+            pBuffer.writeInt(pRecipe.getIngredients().size());
 
-            @Override
-            public DryingRackRecipe fromJson(ResourceLocation id, JsonObject pSerializedRecipe) {
-                ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
-
-                JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
-                NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
-
-                for (int i = 0; i < inputs.size(); i++) {
-                    inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
-                }
-                return new DryingRackRecipe(id, output, inputs);
+            for (Ingredient ing : pRecipe.getIngredients()) {
+                ing.toNetwork(pBuffer);
             }
-
-            @Override
-            public @Nullable DryingRackRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf pBuffer) {
-                NonNullList<Ingredient> inputs = NonNullList.withSize(pBuffer.readInt(), Ingredient.EMPTY);
-
-                for (int i = 0; i < inputs.size(); i++) {
-                    inputs.set(i, Ingredient.fromNetwork(pBuffer));
-                }
-
-                ItemStack output = pBuffer.readItem();
-                return new DryingRackRecipe(id, output, inputs);
-            }
-
-            @Override
-            public void toNetwork(FriendlyByteBuf pBuffer, DryingRackRecipe pRecipe) {
-                pBuffer.writeInt(pRecipe.getIngredients().size());
-
-                for (Ingredient ing : pRecipe.getIngredients()) {
-                    ing.toNetwork(pBuffer);
-                }
-                pBuffer.writeItemStack(pRecipe.getResultItem(), false);
-            }
+            pBuffer.writeItemStack(pRecipe.getResultItem(), false);
         }
     }
+}

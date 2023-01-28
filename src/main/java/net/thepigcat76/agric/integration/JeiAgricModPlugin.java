@@ -41,6 +41,6 @@ public class JeiAgricModPlugin implements IModPlugin {
     }
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.DRYING_RACK_ENTITY.get()), new RecipeType<>(DryingRackRecipeCategory.UID, DryingRackRecipe.class));
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.DRYING_RACK.get()), new RecipeType<>(DryingRackRecipeCategory.UID, DryingRackRecipe.class));
     }
 }

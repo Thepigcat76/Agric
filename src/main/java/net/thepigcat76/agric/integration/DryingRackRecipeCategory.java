@@ -24,7 +24,7 @@ public class DryingRackRecipeCategory implements IRecipeCategory<DryingRackRecip
 
     public DryingRackRecipeCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(TEXTURE, 0, 0, 176, 85);
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.DRYING_RACK_ENTITY.get()));
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.DRYING_RACK.get()));
     }
 
     @Override

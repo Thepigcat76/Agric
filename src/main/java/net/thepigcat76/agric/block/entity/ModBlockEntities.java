@@ -17,12 +17,12 @@ public class ModBlockEntities {
     public static final RegistryObject<BlockEntityType<DryingRackEntity>> DRYING_RACK_ENTITY =
             BLOCK_ENTITIES.register("drying_rack_entity", () ->
                     BlockEntityType.Builder.of(DryingRackEntity::new,
-                            ModBlocks.DRYING_RACK_ENTITY.get()).build(null));
+                            ModBlocks.DRYING_RACK.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<CrateEntity>> CRATE_ENTITY =
             BLOCK_ENTITIES.register("crate_entity", () ->
                     BlockEntityType.Builder.of(CrateEntity::new,
-                            ModBlocks.CRATE_ENTIY.get()).build(null));
+                            ModBlocks.CRATE.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {
