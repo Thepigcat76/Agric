@@ -3,17 +3,16 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-
-group = 'com.thepigct'
-version = '1.0-SNAPSHOT'
+group = "${modGroup}"
+version = "${modVersion}"
 
 java {
-    archivesBaseName = 'agric'
+    archivesBaseName = "${modName}"
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.08.14-1.19.2'
+    mappings channel: 'parchment', version: "${parchmentDate}-${parchmentVersion}" // '2022.11.27-1.19.2'
     runs {
         client {
             workingDirectory project.file('run')
@@ -92,7 +91,8 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.0.11'
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}" // 1.19.2-43.0.11'
+
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
@@ -101,7 +101,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "agric",
+                "Specification-Title"     : project.modName,
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
