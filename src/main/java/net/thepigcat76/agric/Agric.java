@@ -14,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.thepigcat76.agric.recipe.ModRecipes;
 import net.thepigcat76.agric.screen.ModMenuTypes;
+import net.thepigcat76.agric.screen.centrifuge.CentrifugeScreen;
 import net.thepigcat76.agric.screen.drying_rack.DryingRackScreen;
 import org.slf4j.Logger;
 
@@ -47,6 +48,7 @@ public class Agric {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             MenuScreens.register(ModMenuTypes.DRYING_RACK_MENU.get(), DryingRackScreen::new);
+            MenuScreens.register(ModMenuTypes.CENTRIFUGE_MENU.get(), CentrifugeScreen::new);
         }
     }
 }

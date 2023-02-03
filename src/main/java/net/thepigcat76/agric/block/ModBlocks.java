@@ -16,6 +16,7 @@ import net.thepigcat76.agric.block.bush.RaspberryBush;
 import net.thepigcat76.agric.block.crop.CottonCrop;
 import net.thepigcat76.agric.block.crop.ReedCrop;
 import net.thepigcat76.agric.block.bush.StrawberryBush;
+import net.thepigcat76.agric.block.functional.Centrifuge;
 import net.thepigcat76.agric.block.functional.Crate;
 import net.thepigcat76.agric.block.functional.DryingRack;
 import net.thepigcat76.agric.item.ModCreativeTab;
@@ -56,6 +57,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> DRYING_RACK = registerBlock("drying_rack",
             () -> new DryingRack(BlockBehaviour.Properties.of(Material.WOOD)
+                    .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
+
+    public static final RegistryObject<Block> CENTRIFUGE = registerBlock("centrifuge",
+            () -> new Centrifuge(BlockBehaviour.Properties.of(Material.METAL)
                     .strength(4f).noOcclusion()), ModCreativeTab.AGRIC);
 
     public static final RegistryObject<Block> CRATE = registerBlock("crate",

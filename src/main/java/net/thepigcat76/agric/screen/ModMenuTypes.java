@@ -9,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
+import net.thepigcat76.agric.screen.centrifuge.CentrifugeMenu;
 import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
 
 public class ModMenuTypes {
@@ -17,6 +18,9 @@ public class ModMenuTypes {
 
     public static final RegistryObject<MenuType<DryingRackMenu>> DRYING_RACK_MENU =
             registerMenuType(DryingRackMenu::new, "drying_rack_menu");
+
+    public static final RegistryObject<MenuType<CentrifugeMenu>> CENTRIFUGE_MENU =
+            registerMenuType(CentrifugeMenu::new, "centrifuge_menu");
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(IContainerFactory<T> factory, String name) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

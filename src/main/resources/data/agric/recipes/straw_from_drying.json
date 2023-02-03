@@ -2,11 +2,10 @@
   "type": "agric:drying",
   "ingredients": [
     {
-      "item": "minecraft:stick",
-      "time": 300
+      "item": "agric:grass_bundle"
     }
   ],
   "output": {
-    "item": "minecraft:diamond"
+    "item": "agric:straw"
   }
 }

@@ -22,30 +22,30 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.thepigcat76.agric.block.entity.ModBlockEntities;
 import net.thepigcat76.agric.block.entity.WrappedHandler;
-import net.thepigcat76.agric.recipe.DryingRackRecipe;
-import net.thepigcat76.agric.screen.drying_rack.DryingRackMenu;
+import net.thepigcat76.agric.recipe.CentrifugeRecipe;
+import net.thepigcat76.agric.screen.centrifuge.CentrifugeMenu;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Optional;
 
-public class DryingRackEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
+public class CentrifugeEntity  extends BlockEntity implements MenuProvider {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(5) {
+    @Override
+    protected void onContentsChanged(int slot) {
+        setChanged();
+    }
 
-        @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return switch (slot) {
-                case 0 -> true;
-                case 1 -> false;
-                default -> super.isItemValid(slot, stack);
-            };
-        }
-    };
+    @Override
+    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        return switch (slot) {
+            case 0 -> true;
+            case 1, 2, 3, 4 -> false;
+            default -> super.isItemValid(slot, stack);
+        };
+    }
+};
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
     //Not complete yet
@@ -65,14 +65,14 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
     private int progress = 0;
     private int maxProgress = 78;
 
-    public DryingRackEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.DRYING_RACK_ENTITY.get(), pos, state);
+    public CentrifugeEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.CENTRIFUGE_ENTITY.get(), pos, state);
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> DryingRackEntity.this.progress;
-                    case 1 -> DryingRackEntity.this.maxProgress;
+                    case 0 -> CentrifugeEntity.this.progress;
+                    case 1 -> CentrifugeEntity.this.maxProgress;
                     default -> 0;
                 };
             }
@@ -80,27 +80,27 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> DryingRackEntity.this.progress = value;
-                    case 1 -> DryingRackEntity.this.maxProgress = value;
+                    case 0 -> CentrifugeEntity.this.progress = value;
+                    case 1 -> CentrifugeEntity.this.maxProgress = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 5;
             }
         };
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("container.drying_rack");
+        return Component.translatable("container.centrifuge");
     }
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new DryingRackMenu(id, inventory, this, this.data);
+        return new CentrifugeMenu(id, inventory, this, this.data);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
     @Override
     protected void saveAdditional(CompoundTag nbt) {
         nbt.put("inventory", itemHandler.serializeNBT());
-        nbt.putInt("drying_rack.progress", this.progress);
+        nbt.putInt("centrifuge.progress", this.progress);
 
         super.saveAdditional(nbt);
     }
@@ -135,7 +135,7 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
     public void load(CompoundTag nbt) {
         super.load(nbt);
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
-        progress = nbt.getInt("drying_rack.progress");
+        progress = nbt.getInt("centrifuge.progress");
     }
 
     public void drops() {
@@ -147,7 +147,7 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, DryingRackEntity pEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, CentrifugeEntity pEntity) {
         if(level.isClientSide()) {
             return;
         }
@@ -168,14 +168,14 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         this.progress = 0;
     }
 
-    private static void craftItem(DryingRackEntity pEntity) {
+    private static void craftItem(CentrifugeEntity pEntity) {
         Level level = pEntity.level;
 
         SimpleContainer inventory = new SimpleContainer(pEntity.itemHandler.getSlots());
         for (int i = 0; i < pEntity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, pEntity.itemHandler.getStackInSlot(i));
         }
-        Optional<DryingRackRecipe> recipe = level.getRecipeManager().getRecipeFor(DryingRackRecipe.Type.INSTANCE, inventory, level);
+        Optional<CentrifugeRecipe> recipe = level.getRecipeManager().getRecipeFor(CentrifugeRecipe.Type.INSTANCE, inventory, level);
 
         if(hasRecipe(pEntity)) {
             pEntity.itemHandler.extractItem(0, 1, false);
@@ -186,14 +186,14 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         }
     }
 
-    private static boolean hasRecipe(DryingRackEntity entity) {
+    private static boolean hasRecipe(CentrifugeEntity entity) {
         Level level = entity.level;
 
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
         }
-        Optional<DryingRackRecipe> recipe = level.getRecipeManager().getRecipeFor(DryingRackRecipe.Type.INSTANCE, inventory, level);
+        Optional<CentrifugeRecipe> recipe = level.getRecipeManager().getRecipeFor(CentrifugeRecipe.Type.INSTANCE, inventory, level);
 
         return recipe.isPresent() && canInsertAmountIntoOutputSlot(inventory) &&
                 canInsertItemIntoOutputSlot(inventory, recipe.get().getResultItem());
@@ -209,3 +209,4 @@ public class DryingRackEntity extends BlockEntity implements MenuProvider {
         return inventory.getItem(1).getMaxStackSize() > inventory.getItem(1).getCount();
     }
 }
+

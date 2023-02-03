@@ -24,6 +24,7 @@
   "container.crate": "Crate",
   "container.drying_rack": "Drying Rack",
   "container.fermentation_barrel": "Fermentation Barrel",
+  "container.centrifuge": "Centrifuge",
 
   "itemGroup.agric": "Agric"
 }

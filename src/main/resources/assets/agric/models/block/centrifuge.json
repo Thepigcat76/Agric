@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "agric:block/centrifuge_top",
+    "side": "agric:block/centrifuge_side",
+    "bottom": "agric:block/centrifuge_top"
+  }
+}

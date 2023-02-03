@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
 import net.thepigcat76.agric.block.ModBlocks;
+import net.thepigcat76.agric.block.entity.processing.CentrifugeEntity;
 import net.thepigcat76.agric.block.entity.processing.DryingRackEntity;
 import net.thepigcat76.agric.block.entity.storage.CrateEntity;
 
@@ -18,6 +19,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("drying_rack_entity", () ->
                     BlockEntityType.Builder.of(DryingRackEntity::new,
                             ModBlocks.DRYING_RACK.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<CentrifugeEntity>> CENTRIFUGE_ENTITY =
+            BLOCK_ENTITIES.register("centrifuge_entity", () ->
+                    BlockEntityType.Builder.of(CentrifugeEntity::new,
+                            ModBlocks.CENTRIFUGE.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<CrateEntity>> CRATE_ENTITY =
             BLOCK_ENTITIES.register("crate_entity", () ->
