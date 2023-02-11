@@ -9,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
+import net.thepigcat76.agric.items.MudballItem;
 
 import java.util.function.Supplier;
 
@@ -24,7 +25,7 @@ public class ModItems {
             () -> new Item(effect_food_item(64, 1, 60,0)));
 
     public static final RegistryObject<Item> MUDBALL = MOD_ITEMS.register("mudball",
-            () -> new SnowballItem(basic_item(64)));
+            () -> new MudballItem(basic_item(64)));
 
     public static void register(IEventBus eventBus) {
         MOD_ITEMS.register(eventBus);
