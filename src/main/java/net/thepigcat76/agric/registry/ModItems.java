@@ -21,7 +21,16 @@ public class ModItems {
     public static final RegistryObject<Item> STRAW = MOD_ITEMS.register("straw",
             () -> new Item(basic_item(64)));
 
+    public static final RegistryObject<Item> RYE = MOD_ITEMS.register("rye",
+            () -> new Item(basic_item(64)));
+    //Berries
     public static final RegistryObject<Item> BLUEBERRY = MOD_ITEMS.register("blueberry",
+            () -> new Item(effect_food_item(64, 1, 60,0)));
+
+    public static final RegistryObject<Item> STRAWBERRY = MOD_ITEMS.register("blueberry",
+            () -> new Item(effect_food_item(64, 1, 60,0)));
+
+    public static final RegistryObject<Item> RASPBERRY = MOD_ITEMS.register("blueberry",
             () -> new Item(effect_food_item(64, 1, 60,0)));
 
     public static final RegistryObject<Item> MUDBALL = MOD_ITEMS.register("mudball",
