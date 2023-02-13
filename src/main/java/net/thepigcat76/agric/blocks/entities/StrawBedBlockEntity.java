@@ -13,8 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class StrawBedBlockEntity extends BlockEntity {
 
-    public StrawBedBlockEntity(BlockPos p_155118_, BlockState p_155119_) {
-        super(BlockEntityType.BED, p_155118_, p_155119_);
+    public StrawBedBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(BlockEntityType.BED, blockPos, blockState);
     }
 
     public ClientboundBlockEntityDataPacket getUpdatePacket() {

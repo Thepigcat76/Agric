@@ -9,6 +9,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
+import net.thepigcat76.agric.items.FertilizerItem;
 import net.thepigcat76.agric.items.MudballItem;
 
 public class ModItems {
@@ -20,6 +21,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> RYE = MOD_ITEMS.register("rye",
             () -> new Item(basic_item(64)));
+
+    public static final RegistryObject<Item> FERTILIZER = MOD_ITEMS.register("fertilizer",
+            () -> new FertilizerItem(basic_item(64)));
 
     public static final RegistryObject<Item> MUDBALL = MOD_ITEMS.register("mudball",
             () -> new MudballItem(basic_item(64)));

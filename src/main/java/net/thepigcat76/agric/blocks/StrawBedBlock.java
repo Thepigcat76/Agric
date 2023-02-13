@@ -25,7 +25,6 @@ import net.minecraft.world.level.ExplosionDamageCalculator;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BedBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,9 +38,8 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.thepigcat76.agric.blocks.entities.StrawBedBlockEntity;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -49,19 +47,10 @@ public class StrawBedBlock extends HorizontalDirectionalBlock implements EntityB
     public static final EnumProperty<BedPart> PART = BlockStateProperties.BED_PART;
     public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
     protected static final int HEIGHT = 9;
-    protected static final VoxelShape BASE = Block.box(0.0D, 3.0D, 0.0D, 16.0D, 9.0D, 16.0D);
-    private static final int LEG_WIDTH = 3;
-    protected static final VoxelShape LEG_NORTH_WEST = Block.box(0.0D, 0.0D, 0.0D, 3.0D, 3.0D, 3.0D);
-    protected static final VoxelShape LEG_SOUTH_WEST = Block.box(0.0D, 0.0D, 13.0D, 3.0D, 3.0D, 16.0D);
-    protected static final VoxelShape LEG_NORTH_EAST = Block.box(13.0D, 0.0D, 0.0D, 16.0D, 3.0D, 3.0D);
-    protected static final VoxelShape LEG_SOUTH_EAST = Block.box(13.0D, 0.0D, 13.0D, 16.0D, 3.0D, 16.0D);
-    protected static final VoxelShape NORTH_SHAPE = Shapes.or(BASE, LEG_NORTH_WEST, LEG_NORTH_EAST);
-    protected static final VoxelShape SOUTH_SHAPE = Shapes.or(BASE, LEG_SOUTH_WEST, LEG_SOUTH_EAST);
-    protected static final VoxelShape WEST_SHAPE = Shapes.or(BASE, LEG_NORTH_WEST, LEG_SOUTH_WEST);
-    protected static final VoxelShape EAST_SHAPE = Shapes.or(BASE, LEG_NORTH_EAST, LEG_SOUTH_EAST);
+    protected static final VoxelShape BASE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D);
 
-    public StrawBedBlock(BlockBehaviour.Properties p_49455_) {
-        super(p_49455_);
+    public StrawBedBlock(BlockBehaviour.Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(PART, BedPart.FOOT).setValue(OCCUPIED, Boolean.valueOf(false)));
     }
 
@@ -71,39 +60,38 @@ public class StrawBedBlock extends HorizontalDirectionalBlock implements EntityB
         return blockstate.getBlock() instanceof net.thepigcat76.agric.blocks.StrawBedBlock ? blockstate.getValue(FACING) : null;
     }
 
-    public InteractionResult use(BlockState p_49515_, Level p_49516_, BlockPos p_49517_, Player p_49518_, InteractionHand p_49519_, BlockHitResult p_49520_) {
-        if (p_49516_.isClientSide) {
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if (level.isClientSide) {
             return InteractionResult.CONSUME;
         } else {
-            if (p_49515_.getValue(PART) != BedPart.HEAD) {
-                p_49517_ = p_49517_.relative(p_49515_.getValue(FACING));
-                p_49515_ = p_49516_.getBlockState(p_49517_);
-                if (!p_49515_.is(this)) {
+            if (blockState.getValue(PART) != BedPart.HEAD) {
+                blockPos = blockPos.relative(blockState.getValue(FACING));
+                blockState = level.getBlockState(blockPos);
+                if (!blockState.is(this)) {
                     return InteractionResult.CONSUME;
                 }
             }
 
-            if (!canSetSpawn(p_49516_)) {
-                p_49516_.removeBlock(p_49517_, false);
-                BlockPos blockpos = p_49517_.relative(p_49515_.getValue(FACING).getOpposite());
-                if (p_49516_.getBlockState(blockpos).is(this)) {
-                    p_49516_.removeBlock(blockpos, false);
+            if (!canSetSpawn(level)) {
+                level.removeBlock(blockPos, false);
+                BlockPos blockpos = blockPos.relative(blockState.getValue(FACING).getOpposite());
+                if (level.getBlockState(blockpos).is(this)) {
+                    level.removeBlock(blockpos, false);
                 }
 
-                p_49516_.explode((Entity)null, DamageSource.badRespawnPointExplosion(), (ExplosionDamageCalculator)null, (double)p_49517_.getX() + 0.5D, (double)p_49517_.getY() + 0.5D, (double)p_49517_.getZ() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
+                level.explode((Entity) null, DamageSource.badRespawnPointExplosion(), (ExplosionDamageCalculator) null, (double) blockPos.getX() + 0.5D, (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D, 5.0F, true, Explosion.BlockInteraction.DESTROY);
                 return InteractionResult.SUCCESS;
-            } else if (p_49515_.getValue(OCCUPIED)) {
-                if (!this.kickVillagerOutOfBed(p_49516_, p_49517_)) {
-                    p_49518_.displayClientMessage(Component.translatable("block.minecraft.bed.occupied"), true);
+            } else if (blockState.getValue(OCCUPIED)) {
+                if (!this.kickVillagerOutOfBed(level, blockPos)) {
+                    player.displayClientMessage(Component.translatable("block.minecraft.bed.occupied"), true);
                 }
 
                 return InteractionResult.SUCCESS;
             } else {
-                p_49518_.startSleepInBed(p_49517_).ifLeft((p_49477_) -> {
+                player.startSleepInBed(blockPos).ifLeft((p_49477_) -> {
                     if (p_49477_.getMessage() != null) {
-                        p_49518_.displayClientMessage(p_49477_.getMessage(), true);
+                        player.displayClientMessage(p_49477_.getMessage(), true);
                     }
-
                 });
                 return InteractionResult.SUCCESS;
             }
@@ -181,20 +169,6 @@ public class StrawBedBlock extends HorizontalDirectionalBlock implements EntityB
         BlockPos blockpos1 = blockpos.relative(direction);
         Level level = p_49479_.getLevel();
         return level.getBlockState(blockpos1).canBeReplaced(p_49479_) && level.getWorldBorder().isWithinBounds(blockpos1) ? this.defaultBlockState().setValue(FACING, direction) : null;
-    }
-
-    public VoxelShape getShape(BlockState p_49547_, BlockGetter p_49548_, BlockPos p_49549_, CollisionContext p_49550_) {
-        Direction direction = getConnectedDirection(p_49547_).getOpposite();
-        switch (direction) {
-            case NORTH:
-                return NORTH_SHAPE;
-            case SOUTH:
-                return SOUTH_SHAPE;
-            case WEST:
-                return WEST_SHAPE;
-            default:
-                return EAST_SHAPE;
-        }
     }
 
     public static Direction getConnectedDirection(BlockState p_49558_) {

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ood",
+    "ods"
+  ],
+  "key": {
+    "o": {
+      "tag": "agric:organic_materials"
+    },
+    "d": {
+      "item": "minecraft:dirt"
+    },
+    "s": {
+      "item": "minecraft:sand"
+    }
+  },
+  "result": {
+    "count": 8,
+    "item": "agric:fertilizer"
+  }
+}
