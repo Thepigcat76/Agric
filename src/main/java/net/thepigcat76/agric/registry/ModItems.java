@@ -4,6 +4,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.SmokerBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -11,6 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import net.thepigcat76.agric.Agric;
 import net.thepigcat76.agric.items.FertilizerItem;
 import net.thepigcat76.agric.items.MudballItem;
+import net.thepigcat76.agric.items.SmokerItem;
 
 public class ModItems {
     public static final DeferredRegister<Item> MOD_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Agric.MODID);
@@ -37,6 +39,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> RASPBERRY = MOD_ITEMS.register("raspberry",
             () -> new Item(effect_food_item(64, 1, 60,0)));
+
+    public static final RegistryObject<Item> SMOKER = MOD_ITEMS.register("smoker",
+            () -> new SmokerItem(basic_item(1)));
 
     public static void register(IEventBus eventBus) {
         MOD_ITEMS.register(eventBus);

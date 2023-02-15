@@ -13,7 +13,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.thepigcat76.agric.registry.ModCreativeModeTab;
 import net.thepigcat76.agric.registry.ModItems;
 
 import javax.annotation.Nonnull;

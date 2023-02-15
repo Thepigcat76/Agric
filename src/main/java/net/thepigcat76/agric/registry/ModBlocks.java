@@ -20,9 +20,15 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> MOD_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Agric.MODID);
 
-    public static final RegistryObject<Block> STRAW_BLOCK = registerBlock("straw_block", () -> new Block(BlockBehaviour.Properties.of(Material.LEAVES).strength(2f)), ModCreativeModeTab.AGRIC);
+    public static final RegistryObject<Block> STRAW_BLOCK = registerBlock("straw_block",
+            () -> new Block(BlockBehaviour.Properties.of(Material.GRASS).strength(2f)), ModCreativeModeTab.AGRIC);
 
-    public static final RegistryObject<Block> STRAW_BED = registerBlock("straw_bed", () -> new StrawBedBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(2f)), ModCreativeModeTab.AGRIC);
+    public static final RegistryObject<Block> STRAW_BED = registerBlock("straw_bed",
+            () -> new StrawBedBlock(BlockBehaviour.Properties.of(Material.GRASS).strength(2f)), ModCreativeModeTab.AGRIC);
+
+    public static final RegistryObject<Block> THATCH = registerBlock("thatch",
+            () -> new Block(BlockBehaviour.Properties.of(Material.GRASS).strength(2f)), ModCreativeModeTab.AGRIC);
+
     public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = MOD_BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
